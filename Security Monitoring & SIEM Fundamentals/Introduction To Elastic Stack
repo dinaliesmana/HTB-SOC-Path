@@ -1,1 +1,81 @@
+# 🔍 Introduction to the Elastic Stack – HTB Academy
+
+This section covers the **Elastic Stack** (formerly ELK Stack), its components, and how it can be used as a **SIEM solution** in a modern SOC environment.
+
+---
+
+## 🧱 What Is the Elastic Stack?
+
+The Elastic Stack is a powerful open-source toolset developed by Elastic. It includes:
+- **Elasticsearch** – A distributed search and analytics engine
+- **Logstash** – A data processing pipeline for log ingestion and transformation
+- **Kibana** – A visualization tool for searching and analyzing data
+- **Beats** – Lightweight agents that collect and ship data
+
+> Data Flow:
+> **Beats** → **Logstash** → **Elasticsearch** → **Kibana**  
+> or  
+> **Beats** → **Elasticsearch** → **Kibana**
+
+---
+
+## ⚙️ Core Components
+
+### 📦 Elasticsearch
+- JSON-based search engine
+- Stores, indexes, and analyzes data from various sources
+- Supports complex queries and data correlation
+
+### 🔄 Logstash
+- Ingests and transforms log data from multiple sources
+- Applies filters to enrich and normalize logs
+- Sends processed data to Elasticsearch
+
+### 📊 Kibana
+- Front-end UI for searching, filtering, and visualizing Elasticsearch data
+- Supports dashboards, graphs, tables, and time-series charts
+- Primary interface for SOC analysts
+
+### 📡 Beats
+- Lightweight data shippers like Filebeat and Metricbeat
+- Installed on endpoints to forward logs/metrics to Logstash or Elasticsearch
+
+---
+
+## 🛡️ Elastic Stack as a SIEM
+
+The Elastic Stack can be used as a full-fledged **SIEM** to:
+- Ingest logs from firewalls, endpoints, IDS/IPS, etc.
+- Correlate and analyze security events
+- Build detection rules and visual dashboards in Kibana
+- Enable threat hunting and incident response
+
+---
+
+## 🔎 Kibana Query Language (KQL)
+
+KQL is used to query data in Kibana:
+```kql
+event.code:4625 AND winlog.event_data.SubStatus:0xC0000072
+This finds failed login attempts on disabled Windows accounts.
+
+
+
+🔹 KQL Features
+Field:value pairs
+- Free text search
+- Logical operators (AND, OR, NOT)
+- Comparison operators (:>, :<, :!)
+- Wildcards & regex
+- Date/time range filters (@timestamp)
+
+🧠 ECS – Elastic Common Schema
+ECS standardizes field names across sources, improving:
+- Query simplicity
+- Dashboard consistency
+- Cross-source correlation
+- Compatibility with Elastic tools (Security, Observability, ML)
+
+✅ Summary
+The Elastic Stack is a modular, flexible platform well-suited for SIEM use cases. Mastering its tools—especially Kibana and KQL—is critical for a SOC Analyst. As I continue my SOC journey, I’ll practice building dashboards, writing queries, and analyzing security logs using the Elastic Stack.
 

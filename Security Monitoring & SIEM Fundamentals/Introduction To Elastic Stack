@@ -59,7 +59,7 @@ KQL is used to query data in Kibana:
 event.code:4625 AND winlog.event_data.SubStatus:0xC0000072
 This finds failed login attempts on disabled Windows accounts.
 
-
+![image alt](https://github.com/dinaliesmana/HTB-SOC-Path/blob/main/Security%20Monitoring%20&%20SIEM%20Fundamentals/Windows%20error%20codes.png?raw=true)
 
 🔹 KQL Features
 Field:value pairs

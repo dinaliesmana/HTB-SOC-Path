@@ -1,0 +1,74 @@
+🔍 Analyzing Evil with Sysmon & Windows Event Logs
+✅ Why Sysmon?
+Sysmon (System Monitor) extends Windows logging by capturing detailed process, network, and DLL load events not available in standard Security Event logs. This makes it essential for threat hunting and detecting malicious activities.
+
+Key Event IDs
+4624 (Windows) → Logon events
+
+4688 (Windows) → Process creation
+
+1 (Sysmon) → Process creation
+
+3 (Sysmon) → Network connections
+
+7 (Sysmon) → DLL/module load
+
+10 (Sysmon) → Process access (detecting LSASS credential dumping)
+
+Sysmon Installation
+cmd
+Copy
+Edit
+sysmon.exe -i -accepteula -h md5,sha256,imphash -l -n
+sysmon.exe -c sysmonconfig-export.xml   # Apply custom config
+📌 Recommended configs:
+
+SwiftOnSecurity Sysmon Config
+
+OlafHartong Modular Config
+
+Detection Examples
+1️⃣ DLL Hijacking
+Look for calc.exe or other executables running from non-standard locations.
+
+IOC Indicators:
+
+DLL loaded outside C:\Windows\System32\
+
+Unsigned DLL where original is signed
+
+Copy of system binaries in writable directories
+
+Filter by Sysmon Event ID 7 for ImageLoaded.
+
+2️⃣ Unmanaged PowerShell / .NET Injection
+Detect clr.dll or clrjit.dll loaded into unusual processes.
+
+Example: PSInject injecting PowerShell code into spoolsv.exe:
+
+powershell
+Copy
+Edit
+powershell -ep bypass
+Import-Module .\Invoke-PSInject.ps1
+Invoke-PSInject -ProcId [PID] -PoshCode "<Base64 Code>"
+IOC: Non-.NET processes suddenly become managed (.NET).
+
+3️⃣ Credential Dumping (Mimikatz)
+Uses sekurlsa::logonpasswords to read LSASS memory.
+
+Detect via Sysmon Event ID 10 (ProcessAccess):
+
+Suspicious process accessing lsass.exe
+
+SourceUser ≠ TargetUser
+
+SeDebugPrivilege enabled
+
+Why It Matters
+Sysmon provides granular telemetry critical for SOC operations.
+
+Enables creation of detection rules for DLL hijacks, PowerShell injection, and credential theft.
+
+Forms the basis for behavior-based detection beyond signature-based methods.
+
